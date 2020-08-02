@@ -21,7 +21,7 @@ class mineLabel (QtWidgets.QLabel):
         self.i = i
         self.j = j
         self.leftAndRightClicked = False
-        self.status = 0  # 0、1、2代表没挖开、挖开、标雷
+        self.status = 0  # 0、1、2、3代表没挖开、挖开、标雷、踩到雷的红雷
         # self.setMouseTracking(True)
 
     def mousePressEvent(self, e):  ##重载一下鼠标点击事件
