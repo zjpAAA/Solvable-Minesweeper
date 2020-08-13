@@ -1,8 +1,9 @@
-# Solvable-Minesweeper
+# PyQt5 Based Solvable Minesweeper
 
 # 黑猫扫雷v2.0——包含8种模式的无猜扫雷项目
 
 黑猫扫雷v2.0，内部集成了三大判雷引擎，具有全部6种无猜扫雷模式+标准+win7。
+Black Cat Minesweeper v2.0, which integrates three major internal mine detection engines, with all six kinds of no-guess minesweeper mode + standard + Win7.
 
 使用教程：（还没写）
 
