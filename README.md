@@ -5,10 +5,15 @@
 黑猫扫雷v2.0，内部集成了三大判雷引擎，具有全部6种无猜扫雷模式+标准+win7。
 
 使用教程：（还没写）
+
 原理：（还没写）
-同类项目：	[kaboom](https://pwmarcz.pl/kaboom/)
-			[Simon Tatham's Mines](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/mines.html)
-			[FairMinesweeper](https://github.com/xseryda/FairMinesweeper)
+
+同类项目：①[kaboom](https://pwmarcz.pl/kaboom/)
+
+		②[Simon Tatham's Mines](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/mines.html)
+
+		③[FairMinesweeper](https://github.com/xseryda/FairMinesweeper)
+
 与同类项目相比，本项目更优秀。
 
 ## 正式版v1.0：
