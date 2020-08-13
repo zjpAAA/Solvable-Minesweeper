@@ -10,9 +10,9 @@
 
 同类项目：①[kaboom](https://pwmarcz.pl/kaboom/)
 
-		②[Simon Tatham's Mines](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/mines.html)
+②[Simon Tatham's Mines](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/mines.html/)
 
-		③[FairMinesweeper](https://github.com/xseryda/FairMinesweeper)
+③[FairMinesweeper](https://github.com/xseryda/FairMinesweeper/)
 
 与同类项目相比，本项目更优秀。
 
