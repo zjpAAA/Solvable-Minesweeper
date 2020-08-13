@@ -1,6 +1,15 @@
 # Solvable-Minesweeper
 
-# 黑猫扫雷v1.2——史上首款采用局面筛选算法的无猜扫雷。
+# 黑猫扫雷v2.0——包含8种模式的无猜扫雷项目
+
+黑猫扫雷v2.0，内部集成了三大判雷引擎，具有全部6种无猜扫雷模式+标准+win7。
+
+使用教程：（还没写）
+原理：（还没写）
+同类项目：	[kaboom](https://pwmarcz.pl/kaboom/)
+			[Simon Tatham's Mines](https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/mines.html)
+			[FairMinesweeper](https://github.com/xseryda/FairMinesweeper)
+与同类项目相比，本项目更优秀。
 
 ## 正式版v1.0：
 
