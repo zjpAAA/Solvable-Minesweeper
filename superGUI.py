@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'superGUI.ui'
-#
-# Created by: PyQt5 UI code generator 5.10.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 import statusLabel
 class Ui_MainWindow(object):
@@ -110,7 +102,12 @@ class Ui_MainWindow(object):
         self.menu2.addAction(self.action_N)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu2.menuAction())
-
+        
+        self.frameShortcut1 = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_1), MainWindow)
+        self.frameShortcut2 = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_2), MainWindow)
+        self.frameShortcut3 = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_3), MainWindow)
+        self.frameShortcut4 = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_F2), MainWindow)
+        
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -132,6 +129,9 @@ class Ui_MainWindow(object):
         self.action_X_2.setText(_translate("MainWindow", "退出(&X)"))
         
         self.action_N.setText(_translate("MainWindow", "游戏设置(&N)"))
+
+
+    
         
    
 

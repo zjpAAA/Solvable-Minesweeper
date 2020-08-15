@@ -9,19 +9,17 @@ class mineLabel (QtWidgets.QLabel):
     rightPressed = QtCore.pyqtSignal (int, int)
     leftAndRightPressed = QtCore.pyqtSignal (int, int)
     leftAndRightRelease = QtCore.pyqtSignal (int, int)
-    
-    # enterLabel = QtCore.pyqtSignal (int, int)
-    # leaveLabel = QtCore.pyqtSignal (int, int)
     mouseMove = QtCore.pyqtSignal (int, int)
     
 
-    def __init__(self, i, j, num, parent=None):
+    def __init__(self, i, j, num, pixSize, parent=None):
         super (mineLabel, self).__init__ (parent)
         self.num = num
         self.i = i
         self.j = j
         self.leftAndRightClicked = False
         self.status = 0  # 0、1、2、3代表没挖开、挖开、标雷、踩到雷的红雷
+        self.pixSize = pixSize
         # self.setMouseTracking(True)
 
     def mousePressEvent(self, e):  ##重载一下鼠标点击事件
@@ -40,19 +38,19 @@ class mineLabel (QtWidgets.QLabel):
         xx = e.localPos().x()
         yy = e.localPos().y()
         if self.leftAndRightClicked:
-            self.leftAndRightRelease.emit (self.i + yy//32, self.j + xx//32)
+            self.leftAndRightRelease.emit (self.i + yy//self.pixSize, self.j + xx//self.pixSize)
             self.leftAndRightClicked=False
         else:
             if e.button () == QtCore.Qt.LeftButton:
-                self.leftRelease.emit (self.i + yy//32, self.j + xx//32)
+                self.leftRelease.emit (self.i + yy//self.pixSize, self.j + xx//self.pixSize)
             elif e.button () == QtCore.Qt.RightButton:
-                self.rightRelease.emit (self.i + yy//32, self.j + xx//32)
+                self.rightRelease.emit (self.i + yy//self.pixSize, self.j + xx//self.pixSize)
     
     def mouseMoveEvent(self, e):
         #每个格子变成阴影的信号不是由这个格子自身发出的
         xx = e.localPos().x()
         yy = e.localPos().y()
-        self.mouseMove.emit (self.i + yy//32, self.j + xx//32)
+        self.mouseMove.emit (self.i + yy//self.pixSize, self.j + xx//self.pixSize)
     
     
     
