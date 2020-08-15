@@ -3,6 +3,7 @@
 # 黑猫扫雷v2.0——包含8种模式的无猜扫雷项目
 
 黑猫扫雷v2.0，内部集成了三大判雷引擎，具有全部6种无猜扫雷模式+标准+win7。
+
 Black Cat Minesweeper v2.0, which integrates three major internal mine detection engines, with all six kinds of no-guess minesweeper mode + standard + Win7.
 
 使用教程：（还没写）
@@ -46,3 +47,9 @@ Black Cat Minesweeper v2.0, which integrates three major internal mine detection
 链接：https://pan.baidu.com/s/1LXeirXU0-LdEO-8gyb4egg 
 
 提取码：zt6p 
+
+## 正式版v2.1：
+
+修复若干bug，现在点击时脸会发生变化，增加配置文件，现在可以调整窗口为半透明，现在可以调整局面尺寸，增加快捷键F2和1、2、3
+
+链接：https://wws.lanzous.com/iiVXFfnf4if
