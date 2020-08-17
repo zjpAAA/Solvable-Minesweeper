@@ -42,7 +42,7 @@ Black Cat Minesweeper v2.0, which integrates three major internal mine detection
 
 ## 正式版v2.0：
 
-修复若干bug，增加至8种无猜扫雷模式，详细规则见http://saolei.wang/BBS/Title.asp?Id=18590
+修复若干bug，增加至8种无猜扫雷模式，详细规则还没写好
 
 链接：https://pan.baidu.com/s/1LXeirXU0-LdEO-8gyb4egg 
 
