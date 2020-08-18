@@ -1,5 +1,5 @@
+Qtdesigner设计的.ui文件转成.py文件命令：
 pyuic5 -o gameSettings.py ui_gs.ui
 
-
-
+项目打包为.exe文件命令：
 pyinstaller -i cat.ico main.py -p mineLabel.py -p minesweeper_master.py -p mineSweeperGui.py -p selfDefinedParameter.py -p statusLabel.py -p superGUI.py -p gameSettings.py -w
