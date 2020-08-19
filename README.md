@@ -6,9 +6,9 @@
 
 Black Cat Minesweeper v2.0, which integrates three major internal mine detection engines, with all six kinds of no-guess minesweeper mode + standard + Win7.
 
-使用教程：（还没写）
+使用教程：[https://mp.weixin.qq.com/s/gh9Oxtv9eHaPTUMTDwX-fg](https://mp.weixin.qq.com/s/gh9Oxtv9eHaPTUMTDwX-fg)
 
-原理：（还没写）
+实现原理：（还没写）
 
 同类项目：①[kaboom](https://pwmarcz.pl/kaboom/)
 
@@ -52,4 +52,4 @@ Black Cat Minesweeper v2.0, which integrates three major internal mine detection
 
 修复若干bug，现在点击时脸会发生变化，增加配置文件，现在可以调整窗口为半透明，现在可以调整局面尺寸，增加快捷键F2和1、2、3
 
-链接：https://wws.lanzous.com/iiVXFfnf4if
+链接：[https://wws.lanzous.com/iiVXFfnf4if](https://wws.lanzous.com/iiVXFfnf4if)
