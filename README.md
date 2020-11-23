@@ -8,6 +8,8 @@ Black Cat Minesweeper v2.0, which integrates three major internal mine detection
 
 使用教程：[https://mp.weixin.qq.com/s/gh9Oxtv9eHaPTUMTDwX-fg](https://mp.weixin.qq.com/s/gh9Oxtv9eHaPTUMTDwX-fg)
 
+安装：无需安装，解压后打开main.exe开始游戏
+
 实现原理：（还没写）
 
 同类项目：①[kaboom](https://pwmarcz.pl/kaboom/)
@@ -58,4 +60,4 @@ Black Cat Minesweeper v2.0, which integrates three major internal mine detection
 
 修复若干bug，优化一些细节，增加“帮助”菜单，可以阅读一些新手教程
 
-链接：[https://wws.lanzous.com/i7D78iopwih](https://wws.lanzous.com/i7D78iopwih)
+链接：[https://wws.lanzous.com/imt9Hioqkkd](https://wws.lanzous.com/imt9Hioqkkd)
