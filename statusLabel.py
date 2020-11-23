@@ -22,7 +22,15 @@ class StatusLabel (QtWidgets.QLabel):
 
     def mousePressEvent(self, e):  ##重载一下鼠标点击事件
         if e.button () == QtCore.Qt.LeftButton:
-            self.setPixmap(self.pixmap1)
+            config = configparser.ConfigParser()
+            config.read('gameSetting.ini')
+            if self.pixSize == config.getint('DEFAULT','pixSize'):
+                self.setPixmap(self.pixmap1)
+            else:
+                self.pixmap1 = QPixmap("media/f4.png")
+                self.pixSize = config.getint('DEFAULT','pixSize')
+                self.pixmap1 = self.pixmap1.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
+                self.setPixmap(self.pixmap1)
 
     def mouseReleaseEvent(self, e):
         if e.button () == QtCore.Qt.LeftButton:

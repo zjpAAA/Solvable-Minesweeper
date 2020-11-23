@@ -15,6 +15,8 @@ class Ui_MainWindow(object):
         self.frame.setObjectName("frame")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)#水平布局
         self.horizontalLayout.setObjectName("horizontalLayout")
+        self.horizontalLayout1 = QtWidgets.QHBoxLayout(self.frame)#水平布局
+        self.horizontalLayout1.setObjectName("horizontalLayout1")
         self.label = QtWidgets.QLabel(self.frame)#label是雷数
         self.label.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.label.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -36,7 +38,14 @@ class Ui_MainWindow(object):
         self.label_3.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout.addWidget(self.label_3)
+        
         self.verticalLayout.addWidget(self.frame)   #把frame添加到垂直布局的上面
+        
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20,
+                                            QtWidgets.QSizePolicy.Expanding, 
+                                            QtWidgets.QSizePolicy.Minimum)#弹簧
+        self.horizontalLayout1.addItem(spacerItem2)
+        
         self.frame_2 = QtWidgets.QFrame(self.centralwidget)  #整个局面的框
         self.frame_2.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -44,10 +53,16 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.frame_2)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
-       
-        self.verticalLayout.addWidget(self.frame_2)
         
-        self.label_4 = QtWidgets.QLabel(MainWindow)#label3是时间
+        self.horizontalLayout1.addWidget(self.frame_2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20,
+                                            QtWidgets.QSizePolicy.Expanding, 
+                                            QtWidgets.QSizePolicy.Minimum)#弹簧
+        self.horizontalLayout1.addItem(spacerItem3)
+        
+        self.verticalLayout.addItem(self.horizontalLayout1)
+        
+        self.label_4 = QtWidgets.QLabel(MainWindow)#
         self.label_4.setFrameShape(QtWidgets.QFrame.WinPanel)
         self.label_4.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.label_4.setObjectName("label_4")
@@ -64,6 +79,9 @@ class Ui_MainWindow(object):
         
         self.menu2 = QtWidgets.QMenu(self.menubar)
         self.menu2.setObjectName("menu2")
+        
+        self.menu3 = QtWidgets.QMenu(self.menubar)
+        self.menu3.setObjectName("menu3")
         
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -91,6 +109,11 @@ class Ui_MainWindow(object):
         self.action_N = QtWidgets.QAction(MainWindow)
         self.action_N.setObjectName("action_N")
         
+        self.action_H = QtWidgets.QAction(MainWindow)
+        self.action_H.setObjectName("action_H")
+        self.action_A = QtWidgets.QAction(MainWindow)
+        self.action_A.setObjectName("action_A")
+        
         self.menu.addAction(self.action)
         self.menu.addSeparator()
         self.menu.addAction(self.action_B)
@@ -100,8 +123,11 @@ class Ui_MainWindow(object):
         self.menu.addSeparator()
         self.menu.addAction(self.action_X_2)
         self.menu2.addAction(self.action_N)
+        self.menu3.addAction(self.action_H)
+        self.menu3.addAction(self.action_A)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu2.menuAction())
+        self.menubar.addAction(self.menu3.menuAction())
         
         self.frameShortcut1 = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_1), MainWindow)
         self.frameShortcut2 = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_2), MainWindow)
@@ -121,6 +147,8 @@ class Ui_MainWindow(object):
         
         self.menu2.setTitle(_translate("MainWindow", "设置(&F)"))
         
+        self.menu3.setTitle(_translate("MainWindow", "帮助(&H)"))
+        
         self.action.setText(_translate("MainWindow", "新游戏(&N)"))
         self.action_B.setText(_translate("MainWindow", "初级(&B)"))
         self.action_I.setText(_translate("MainWindow", "中级(&I)"))
@@ -129,6 +157,9 @@ class Ui_MainWindow(object):
         self.action_X_2.setText(_translate("MainWindow", "退出(&X)"))
         
         self.action_N.setText(_translate("MainWindow", "游戏设置(&N)"))
+        
+        self.action_H.setText(_translate("MainWindow", "词典(&H)"))
+        self.action_A.setText(_translate("MainWindow", "关于(&A)"))
 
 
     

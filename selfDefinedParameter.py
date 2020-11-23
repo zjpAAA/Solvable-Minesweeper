@@ -15,9 +15,9 @@ class Ui_Dialog (object):
         self.column = column
         self.mineNum = num
         self.alter = False
-        self.Dialog = QtWidgets.QDialog ()
+        self.Dialog = QtWidgets.QDialog()
         self.setupUi ()
-        self.setParameter ()
+        self.setParameter()
         self.Dialog.setWindowIcon (QtGui.QIcon ("media/mine.ico"))
         self.pushButton.clicked.connect (self.processParameter)
         self.pushButton_2.clicked.connect (self.Dialog.close)
@@ -36,8 +36,8 @@ class Ui_Dialog (object):
         self.gridLayout.addWidget (self.label, 0, 0, 1, 1)
         self.spinBox = QtWidgets.QSpinBox (self.widget)
         self.spinBox.setAlignment (QtCore.Qt.AlignCenter)
-        self.spinBox.setMinimum (8)
-        self.spinBox.setMaximum (30)
+        self.spinBox.setMinimum (6)
+        self.spinBox.setMaximum (100)
         self.spinBox.setProperty ("value", 8)
         self.spinBox.setObjectName ("spinBox")
         self.gridLayout.addWidget (self.spinBox, 0, 1, 1, 1)
@@ -46,8 +46,8 @@ class Ui_Dialog (object):
         self.gridLayout.addWidget (self.label_2, 1, 0, 1, 1)
         self.spinBox_2 = QtWidgets.QSpinBox (self.widget)
         self.spinBox_2.setAlignment (QtCore.Qt.AlignCenter)
-        self.spinBox_2.setMinimum (8)
-        self.spinBox_2.setMaximum (50)
+        self.spinBox_2.setMinimum (6)
+        self.spinBox_2.setMaximum (100)
         self.spinBox_2.setObjectName ("spinBox_2")
         self.gridLayout.addWidget (self.spinBox_2, 1, 1, 1, 1)
         self.label_3 = QtWidgets.QLabel (self.widget)

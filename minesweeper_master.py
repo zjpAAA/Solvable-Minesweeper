@@ -6,13 +6,13 @@ from itertools import combinations
 OutputEnable = 0
 seedNum = 60223
 # EnuLimit = 30    #枚举极限
-  
+# 算法方面的工具箱
 
 def layMine(Row , Column , MineNum , X0 , Y0 , Min3BV = 0 , Max3BV = 1e6 , MaxTimes = 1e6):
     #布雷，参数依次是行、列、雷数、起手位置的第几行-1、第几列-1
     #起手不开空，必不为雷
     #返回二维列表，0~8代表数字，-1代表雷
-    # seed(100)
+    seed(1000)
     area = Row*Column-1
     Times = 0
     Parameters = []
@@ -687,12 +687,23 @@ def unsolvableStructure(BoardCheck):
                     return 1
     return 0
 
-def print2(arr):
+def print2(arr, mode = 0):
     #调试时便于打印 print2(BoardofGame)
-    for i in arr:
-        for j in i:
-            print('%3.d'%j, end='')
-        print()
+    if mode == 0:
+        for i in arr:
+            for j in i:
+                print('%3.d'%j, end='')
+            print()
+    elif mode == 1:
+        for i in arr:
+            for j in i:
+                print('%3.d'%j.num, end='')
+            print()
+    elif mode == 2:
+        for i in arr:
+            for j in i:
+                print('%3.d'%j.status, end='')
+            print()
 
 def layMineSolvable(Row , Column , MineNum , X0 , Y0 , Min3BV = 0 , Max3BV = 1e6 , 
                     MaxTimes = 1e6 , enuLimit = 30):

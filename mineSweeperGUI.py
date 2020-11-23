@@ -2,9 +2,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QTimer, QCoreApplication
 from PyQt5.QtGui import QPalette, QPixmap, QFont, QIcon
 from PyQt5.QtWidgets import QLineEdit, QInputDialog, QShortcut
-import superGUI, mineLabel, selfDefinedParameter, gameSettings
+import superGUI, mineLabel, selfDefinedParameter, gameSettings, gameHelp, gameAbout
 import random, sip
 import minesweeper_master
+import statusLabel
 import configparser
 
 
@@ -14,8 +15,8 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
         # gameMode = 0，1，2，3，4，5，6，7代表：
         # 标准、win7、竞速无猜、强无猜、弱无猜、准无猜、强可猜、弱可猜
         if config.read('gameSetting.ini'):
-            self.min3BV = config.getint('DEFAULT', 'min3BV')
-            self.max3BV = config.getint('DEFAULT', 'max3BV')
+            # self.min3BV = config.getint('DEFAULT', 'min3BV')
+            # self.max3BV = config.getint('DEFAULT', 'max3BV')
             self.timesLimit = config.getint('DEFAULT', 'timesLimit')
             self.enuLimit = config.getint('DEFAULT', 'enuLimit')
             self.gameMode = config.getint('DEFAULT', 'gameMode')
@@ -27,17 +28,24 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
                 self.row = 8
                 self.column = 8
                 self.mineNum = 10
+                self.min3BV = config.getint('BEGINNER', 'min3BV')
+                self.max3BV = config.getint('BEGINNER', 'max3BV')
             elif config['DEFAULT']['gameDifficult'] == 'I':
                 self.row = 16
                 self.column = 16
                 self.mineNum = 40
+                self.min3BV = config.getint('INTERMEDIATE', 'min3BV')
+                self.max3BV = config.getint('INTERMEDIATE', 'max3BV')
             elif config['DEFAULT']['gameDifficult'] == 'E':
                 self.row = 16
                 self.column = 30
                 self.mineNum = 99
+                self.min3BV = config.getint('EXPERT', 'min3BV')
+                self.max3BV = config.getint('EXPERT', 'max3BV')
         else:
-            self.min3BV = 1
-            self.max3BV = 10000
+            # 找不到配置文件就初始化
+            self.min3BV = 100
+            self.max3BV = 381
             self.timesLimit = 1000
             self.enuLimit = 30
             self.gameMode = 0
@@ -48,9 +56,7 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
             self.row = 16
             self.column = 30
             self.mineNum = 99
-            config["DEFAULT"] = {'min3BV': 1,
-                                 'max3BV': 10000,
-                                 'timesLimit': 1000,
+            config["DEFAULT"] = {'timesLimit': 1000,
                                  'enuLimit': 30,
                                  'gameMode': 0,
                                  'transparency': 100,
@@ -58,6 +64,20 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
                                  'mainWinTop': 100,
                                  'mainWinLeft': 200,
                                  'gameDifficult': 'E'
+                                 }
+            config["BEGINNER"] = {'min3BV': 2,
+                                 'max3BV': 54,
+                                 }
+            config["INTERMEDIATE"] = {'min3BV': 30,
+                                 'max3BV': 216,
+                                 }
+            config["EXPERT"] = {'min3BV': 100,
+                                 'max3BV': 381,
+                                 }
+            config["CUSTOM"] = {'x':8,
+                                'y':8,
+                                'min3BV': 2,
+                                'max3BV': 54,
                                  }
             with open('gameSetting.ini', 'w') as configfile:
                 config.write(configfile)  # 将对象写入文件
@@ -106,6 +126,7 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
         pixmap15 = QPixmap("media/f1.png")
         pixmap16 = QPixmap("media/f2.png")
         pixmap17 = QPixmap("media/f3.png")
+        pixmap18 = QPixmap("media/f4.png")
         pixmap0 = pixmap0.scaled(self.pixSize, self.pixSize)
         pixmap1 = pixmap1.scaled(self.pixSize, self.pixSize)
         pixmap2 = pixmap2.scaled(self.pixSize, self.pixSize)
@@ -124,10 +145,11 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
         pixmap15 = pixmap15.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
         pixmap16 = pixmap16.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
         pixmap17 = pixmap17.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
+        pixmap18 = pixmap18.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
         self.pixmapNum = {0: pixmap0, 1: pixmap1, 2: pixmap2, 3: pixmap3, 4: pixmap4,
                           5: pixmap5, 6: pixmap6, 7: pixmap7, 8: pixmap8, 9: pixmap9,
                           10: pixmap10, 11: pixmap11, 12: pixmap12, 13: pixmap13,
-                          14: pixmap14, 15: pixmap15, 16: pixmap16, 17: pixmap17}
+                          14: pixmap14, 15: pixmap15, 16: pixmap16, 17: pixmap17, 18: pixmap18}
 
         self.initMineArea()
         self.label_2.leftRelease.connect(self.gameRestart)
@@ -158,6 +180,8 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
         self.action_C.triggered.connect(self.action_CEvent)
         self.action_X_2.triggered.connect(QCoreApplication.instance().quit)
         self.action_N.triggered.connect(self.action_NEvent)
+        self.action_H.triggered.connect(self.action_HEvent)
+        self.action_A.triggered.connect(self.action_AEvent)
         
         config = configparser.ConfigParser()
         config.read('gameSetting.ini')
@@ -489,14 +513,14 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
                     return False
         return True
 
-    def gameWin(self):  # 失败后改脸和状态变量
+    def gameWin(self):  # 成功后改脸和状态变量
         pixmap = QPixmap(self.pixmapNum[17])
         self.label_2.setPixmap(pixmap)
         self.label_2.setScaledContents(True)
         self.gameWinFlag = True
         self.gameFinished()
 
-    def gameFailed(self):
+    def gameFailed(self): # 失败后改脸和状态变量
         pixmap = QPixmap(self.pixmapNum[16])
         self.label_2.setPixmap(pixmap)
         self.label_2.setScaledContents(True)
@@ -526,6 +550,8 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
             conf = configparser.ConfigParser()
             conf.read("gameSetting.ini")
             conf.set("DEFAULT", "gamedifficult", 'B')
+            self.min3BV = conf.getint('BEGINNER', 'min3BV')
+            self.max3BV = conf.getint('BEGINNER', 'max3BV')
             conf.write(open('gameSetting.ini', "w"))
             self.gameStart()
         else:
@@ -540,6 +566,8 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
             conf = configparser.ConfigParser()
             conf.read("gameSetting.ini")
             conf.set("DEFAULT", "gamedifficult", 'I')
+            self.min3BV = conf.getint('INTERMEDIATE', 'min3BV')
+            self.max3BV = conf.getint('INTERMEDIATE', 'max3BV')
             conf.write(open('gameSetting.ini', "w"))
             self.gameStart()
         else:
@@ -554,12 +582,15 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
             conf = configparser.ConfigParser()
             conf.read("gameSetting.ini")
             conf.set("DEFAULT", "gamedifficult", 'E')
+            self.min3BV = conf.getint('EXPERT', 'min3BV')
+            self.max3BV = conf.getint('EXPERT', 'max3BV')
             conf.write(open('gameSetting.ini', "w"))
             self.gameStart()
         else:
             self.gameRestart()
 
     def action_CEvent(self):
+        # 点击菜单栏的自定义后回调
         self.actionChecked('C')
         ui = selfDefinedParameter.Ui_Dialog(self.row, self.column,
                                             self.mineNum)
@@ -604,6 +635,7 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
             pixmap15 = QPixmap("media/f1.png")
             pixmap16 = QPixmap("media/f2.png")
             pixmap17 = QPixmap("media/f3.png")
+            pixmap18 = QPixmap("media/f4.png")
             pixmap0 = pixmap0.scaled(self.pixSize, self.pixSize)
             pixmap1 = pixmap1.scaled(self.pixSize, self.pixSize)
             pixmap2 = pixmap2.scaled(self.pixSize, self.pixSize)
@@ -622,9 +654,39 @@ class MineSweeperGUI(superGUI.Ui_MainWindow):
             pixmap15 = pixmap15.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
             pixmap16 = pixmap16.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
             pixmap17 = pixmap17.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
+            pixmap18 = pixmap18.scaled(self.pixSize * 1.5, self.pixSize * 1.5)
             self.pixmapNum = {0: pixmap0, 1: pixmap1, 2: pixmap2, 3: pixmap3, 4: pixmap4,
                               5: pixmap5, 6: pixmap6, 7: pixmap7, 8: pixmap8, 9: pixmap9,
                               10: pixmap10, 11: pixmap11, 12: pixmap12, 13: pixmap13,
-                              14: pixmap14, 15: pixmap15, 16: pixmap16, 17: pixmap17}
+                              14: pixmap14, 15: pixmap15, 16: pixmap16, 17: pixmap17, 18: pixmap18}
+            
             self.gameStart()
             self.mainWindow.setWindowOpacity(self.transparency)
+
+    def action_HEvent(self):
+        # 词典，即游戏帮助、术语表
+        self.actionChecked('H')
+        ui = gameHelp.Ui_Form()
+        ui.Dialog.setModal(True)
+        ui.Dialog.show()
+        ui.Dialog.exec_()
+
+    def action_AEvent(self):
+        # 关于
+        self.actionChecked('A')
+        ui = gameAbout.Ui_Form()
+        ui.Dialog.setModal(True)
+        ui.Dialog.show()
+        ui.Dialog.exec_()
+
+
+
+
+
+
+
+
+
+
+
+

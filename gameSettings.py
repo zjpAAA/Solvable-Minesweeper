@@ -13,13 +13,23 @@ class Ui_Form(object):
     def __init__(self):
         config = configparser.ConfigParser()
         config.read('gameSetting.ini')
-        self.min3BV = config.getint('DEFAULT','min3BV')
-        self.max3BV = config.getint('DEFAULT','max3BV')
+        # self.min3BV = config.getint('DEFAULT','min3BV')
+        # self.max3BV = config.getint('DEFAULT','max3BV')
         self.timesLimit = config.getint('DEFAULT','timesLimit')
         self.enuLimit = config.getint('DEFAULT','enuLimit')
         self.gameMode = config.getint('DEFAULT','gameMode')
         self.transparency = config.getint('DEFAULT','transparency')
         self.pixSize = config.getint('DEFAULT','pixSize')
+        self.gameDifficult = config['DEFAULT']['gameDifficult']
+        if self.gameDifficult == 'B':
+            self.min3BV = config.getint('BEGINNER', 'min3BV')
+            self.max3BV = config.getint('BEGINNER', 'max3BV')
+        elif self.gameDifficult == 'I':
+            self.min3BV = config.getint('INTERMEDIATE', 'min3BV')
+            self.max3BV = config.getint('INTERMEDIATE', 'max3BV')
+        elif self.gameDifficult == 'E':
+            self.min3BV = config.getint('EXPERT', 'min3BV')
+            self.max3BV = config.getint('EXPERT', 'max3BV')
             
         
         self.alter = False
@@ -80,15 +90,17 @@ class Ui_Form(object):
         font.setWeight(75)
         self.pushButton.setFont(font)
         self.pushButton.setFocusPolicy(QtCore.Qt.StrongFocus)
-        self.pushButton.setStyleSheet("font: 16pt \"黑体\";border-radius:4px;border:2px groove gray;\n"
-"background-color: rgb(220, 220, 220);font: bold")
+        self.pushButton.setStyleSheet("font: 16pt \"黑体\";color:white;\n"
+"background-color: rgb(0, 0, 0);font: bold;border-image: url(media/button.png)")
+        # self.pushButton.setStyleSheet("QPushButton{border-image: url(media/button.png)}")
+        # self.pushButton_2.setStyleSheet("QPushButton{border-image: url(media/button.png)}")
         self.pushButton.setAutoDefault(False)
         self.pushButton.setFlat(False)
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(Form)
         self.pushButton_2.setGeometry(QtCore.QRect(650, 200, 101, 51))
-        self.pushButton_2.setStyleSheet("font: 16pt \"黑体\";border-radius:4px;border:2px groove gray;\n"
-"background-color: rgb(220, 220, 220);font: bold")
+        self.pushButton_2.setStyleSheet("font: 16pt \"黑体\";color:white;\n"
+"background-color: rgb(0, 0, 0);font: bold;border-image: url(media/button.png)")
         self.pushButton_2.setObjectName("pushButton_2")
         self.lineEdit = QtWidgets.QLineEdit(Form)
         self.lineEdit.setGeometry(QtCore.QRect(150, 30, 121, 31))
@@ -330,15 +342,24 @@ class Ui_Form(object):
         
         conf = configparser.ConfigParser()
         conf.read("gameSetting.ini")
-        conf.set("DEFAULT", "min3BV", str(self.min3BV))
-        conf.set("DEFAULT", "max3BV", str(self.max3BV))
+        # conf.set("DEFAULT", "min3BV", str(self.min3BV))
+        # conf.set("DEFAULT", "max3BV", str(self.max3BV))
         conf.set("DEFAULT", "timesLimit", str(self.timesLimit))
         conf.set("DEFAULT", "enuLimit", str(self.enuLimit))
         conf.set("DEFAULT", "gameMode", str(self.gameMode))
         conf.set("DEFAULT", "transparency", str(self.transparency))
         conf.set("DEFAULT", "pixSize", str(self.pixSize))
         conf.write(open('gameSetting.ini', "w"))
-        
+        if self.gameDifficult == 'B':
+            conf.set("BEGINNER", "min3BV", str(self.min3BV))
+            conf.set("BEGINNER", "max3BV", str(self.max3BV))
+        elif self.gameDifficult == 'I':
+            conf.set("INTERMEDIATE", "min3BV", str(self.min3BV))
+            conf.set("INTERMEDIATE", "max3BV", str(self.max3BV))
+        elif self.gameDifficult == 'E':
+            conf.set("EXPERT", "min3BV", str(self.min3BV))
+            conf.set("EXPERT", "max3BV", str(self.max3BV))
+        conf.write(open('gameSetting.ini', "w"))
             
         self.Dialog.close ()
         

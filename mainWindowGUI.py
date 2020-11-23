@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import configparser
+# 定义关闭主窗口后的事件
 # 重写QMainWindow
 class MainWindow(QtWidgets.QMainWindow):
     def closeEvent(self, event):
