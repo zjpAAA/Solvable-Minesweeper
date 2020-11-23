@@ -53,3 +53,9 @@ Black Cat Minesweeper v2.0, which integrates three major internal mine detection
 修复若干bug，现在点击时脸会发生变化，增加配置文件，现在可以调整窗口为半透明，现在可以调整局面尺寸，增加快捷键F2和1、2、3
 
 链接：[https://wws.lanzous.com/iiVXFfnf4if](https://wws.lanzous.com/iiVXFfnf4if)
+
+## 正式版v2.1.2：
+
+修复若干bug，优化一些细节，增加“帮助”菜单，可以阅读一些新手教程
+
+链接：[https://wws.lanzous.com/i7D78iopwih](https://wws.lanzous.com/i7D78iopwih)
