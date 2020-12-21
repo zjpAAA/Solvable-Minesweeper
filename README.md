@@ -8,7 +8,7 @@ Black Cat Minesweeper v2.0, which integrates three major internal mine detection
 
 使用教程：[https://mp.weixin.qq.com/s/gh9Oxtv9eHaPTUMTDwX-fg](https://mp.weixin.qq.com/s/gh9Oxtv9eHaPTUMTDwX-fg)
 
-安装：无需安装，解压后打开main.exe开始游戏
+安装：**无需安装，解压后打开main.exe开始游戏**
 
 实现原理：（还没写）
 
