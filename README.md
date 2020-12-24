@@ -61,3 +61,9 @@ Black Cat Minesweeper v2.0, which integrates three major internal mine detection
 修复若干bug，优化一些细节，增加“帮助”菜单，可以阅读一些新手教程
 
 链接：[https://wws.lanzous.com/imt9Hioqkkd](https://wws.lanzous.com/imt9Hioqkkd)
+
+## 正式版v2.1.5：
+
+修复一个bug，修改游戏界面成标准扫雷，增加基础扫雷教程，游戏结束按空格可以显示各指标（但还没写完）
+
+链接：[https://wws.lanzous.com/imt9Hioqkkd](https://wws.lanzous.com/imt9Hioqkkd)
