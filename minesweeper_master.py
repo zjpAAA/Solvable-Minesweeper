@@ -1,7 +1,6 @@
 # author : Wang JiaNing(18201)
 from random import randint, seed , choice , shuffle
 from itertools import combinations
-# from copy import copy
 
 OutputEnable = 0
 seedNum = 60223
@@ -12,7 +11,7 @@ def layMine(Row , Column , MineNum , X0 , Y0 , Min3BV = 0 , Max3BV = 1e6 , MaxTi
     #布雷，参数依次是行、列、雷数、起手位置的第几行-1、第几列-1
     #起手不开空，必不为雷
     #返回二维列表，0~8代表数字，-1代表雷
-    seed(1000)
+    # seed(160)
     area = Row*Column-1
     Times = 0
     Parameters = []
@@ -430,41 +429,45 @@ def enumerateSub(Col , MineNum):
 
 def enumerateChangeBoard(mineLabel,BoardofGame,xx,yy,enuLimit=30):
     # 等可能给出全部可能情况中(i,j)不为雷的随机一种情况,此时(i,j)一定是未打开状态；
-    #但若超过最大枚举长度，
-    #将返回非随机的某一种可能的情况（暂未实现），若剩余位置数少于雷数，则返回原图
-    #直接返回改好的图和flag，0是改图失败
+    # 但若超过最大枚举长度，
+    # 将返回非随机的某一种可能的情况（暂未实现），若剩余位置数少于雷数，则返回原图
+    # 直接返回改好的图和flag，0是改图失败，1是成功
     # 理论上（xx,yy）原本必须是雷
+    # 局限：有时候，重排需要用更多的雷，但内部方格里没有这么多雷，本算法不能从
+    #       边缘方格中抽取雷
     
     MatrixA , Matrixx , Matrixb = refreshMatrix(BoardofGame)
-    mineLabel0 = mineLabel# 备份，重排失败后启用
+    # mineLabel0 = mineLabel.copy() # 备份，重排失败后启用
     
     #先判定是否是必然的雷，即有没有枚举的必要
     BoardofGame,NotMine,flag= SolveDirect(MatrixA , Matrixx , Matrixb , BoardofGame)
     if BoardofGame[xx][yy] == 11:
-        return mineLabel0 , 0
+        return mineLabel , 0
     else:
         MatrixA , Matrixx , Matrixb = refreshMatrix(BoardofGame)
         BoardofGame , NotMine,flag= SolveMinus(MatrixA , Matrixx , Matrixb , BoardofGame)
         if BoardofGame[xx][yy] == 11:
-            return mineLabel0 , 0
+            return mineLabel , 0
     MatrixA , Matrixx , Matrixb = refreshMatrix(BoardofGame)
     MatrixColumn = len(Matrixx)
     MatrixRow = len(Matrixb)
     
     #统计一下一共有几个雷
     MineNum0 = 0
-    for m in mineLabel:
-        for n in m:
+    Mineinside = 0  # 内部的雷数
+    for idm, m in enumerate(mineLabel):
+        for idn, n in enumerate(m):
             if n.num == -1:
                 MineNum0 += 1
+                if (idm, idn) not in Matrixx:
+                    Mineinside += 1
     
     #再判断是不是内部的雷
     if (xx,yy) not in Matrixx:
-        mineLabel[xx][yy].num = 1  #如果是内部的雷，就直接改成非雷
-        mineLabel , flag = refreshMineLable(mineLabel , MineNum0 , BoardofGame)    
-        if flag == 0:
-            return mineLabel0 , 0
-        return mineLabel , 1
+        mineLabel[xx][yy].num = 9
+        # 如果是内部的雷，就直接改成非雷,而且是正常情况绝不会出现的数做记号
+        mineLabel = refreshMineLable(mineLabel , MineNum0 , BoardofGame)  
+        return mineLabel, 1
           
     Id = Matrixx.index((xx,yy))
     MatrixRow = len(Matrixb)
@@ -501,7 +504,7 @@ def enumerateChangeBoard(mineLabel,BoardofGame,xx,yy,enuLimit=30):
     
     if len(GroupCol) >= enuLimit:#枚举法的极限
         #超过枚举极限时，暂时不能给出可能的解，有待升级
-        return mineLabel0 , 0
+        return mineLabel, 0
         # newTable , flag = boardFastSol(MatrixA,Matrixx,Matrixb,GroupCol,GroupRow,Id)
         
     AllTable = [[2]*len(GroupCol)]
@@ -514,22 +517,31 @@ def enumerateChangeBoard(mineLabel,BoardofGame,xx,yy,enuLimit=30):
         # if not AllTable:
         #     return mineLabel0 , 0
         AllTable = enuOneStep(AllTable , TableId , b)
-        
+    
     for index , item in enumerate(AllTable[:]):
-        #前面的步骤保证AllTable的第一列一定是代表(xx,yy)，所以只要删除首位是雷的可能
+        # 删除重排后原位置还是雷的情况
+        # 前面的步骤保证AllTable的第一列一定是代表(xx,yy)，所以只要删除首位是雷的可能
         if item[0] == 1:
             AllTable.remove(item)
     if not AllTable:
-        return mineLabel0 , 0
+        return mineLabel, 0
     newTable = choice(AllTable)#随机抽取列表中某个元素
     #随机重排后可能雷数有增减
     
-    for index , item in enumerate(GroupCol[:]):
+    deltaMine = 0  # 重排前后相差的雷数不能超过内部的雷数
+    for index , item in enumerate(GroupCol):
+        (m,n) = Matrixx[item]
+        deltaMine = deltaMine + newTable[index] - (mineLabel[m][n].num == -1)
+    if deltaMine > Mineinside:
+        return mineLabel, 0
+    
+    for index , item in enumerate(GroupCol):
         (m,n) = Matrixx[item]
         mineLabel[m][n].num = -newTable[index]
-    mineLabel , flag = refreshMineLable(mineLabel , MineNum0 , BoardofGame)
-    if flag == 0:
-        return mineLabel0 , 0
+    
+    
+    mineLabel[xx][yy].num = 9
+    mineLabel = refreshMineLable(mineLabel , MineNum0 , BoardofGame)
          
     return mineLabel , 1
 
@@ -538,7 +550,7 @@ def refreshMineLable(mineLabel , MineNum0 , BoardofGame):
     # 根据真实局面和游戏局面，以及总雷数，刷新真实局面
     # 游戏局面是不变的，真实局面的未打开的数字会刷新
     # 如果有雷数的增减，则内部的雷会重排
-    # 如果雷数多于未知格数，会返回flag等于0，此时mineLabel不维护
+    # 请保证雷数不多于内部格数
     Row = len(mineLabel)
     Column = len(mineLabel[0])
     MineNum1 = 0
@@ -559,15 +571,15 @@ def refreshMineLable(mineLabel , MineNum0 , BoardofGame):
                         # BoardofGame 和 mineLabel.status的区别是后者可能乱标雷
                         # 而前者的雷都是算法标上去的
                             insideFlag = 0
-                if insideFlag:
+                if insideFlag and itemy.num != 9:
                     posInside.append((x , y))
                     if itemy.num == -1:
                         mineNumInside += 1
         #改正总的雷数
         mineNumInside = mineNumInside+MineNum0-MineNum1
         posNum = len(posInside) - mineNumInside
-        if posNum < 0: # 这种情况是内部格子数比雷数少，重排失败
-            return mineLabel , 0
+        # if posNum < 0: # 这种情况是内部格子数比雷数少，重排失败
+        #     return mineLabel , 0
         #重新布内部的雷
         newInsideBoard = [-1] * mineNumInside + [0] * (posNum)
         shuffle(newInsideBoard)
@@ -583,7 +595,7 @@ def refreshMineLable(mineLabel , MineNum0 , BoardofGame):
                         if mineLabel[i][j].num == -1:
                             boardNum += 1
                 itemy.num = boardNum
-    return mineLabel , 1
+    return mineLabel
 
 def isSolvable(Board , X0 , Y0 , enuLimit):
     #从指定位置开始扫，判断局面是否无猜
@@ -804,6 +816,55 @@ def xyisJudgeable(BoardofGame , x , y , EnuLimit=30):
             if (x,y) not in NotMine:
                 return 0
     return 1
+
+def calBoardIndex(Board):
+    # 原则上计算局面中所有指标，比较慢（毫秒级）
+    # 3BV, Ops, Isls
+    # 以后会加各个数字出现次数等等
+    # 返回字典
+    indexes = {}
+    Row = len(Board)
+    Column = len(Board[0])
+    Num3BV = 0
+    for i in range(0, Row):
+        for j in range(0, Column):
+            if Board[i][j] > 0:
+                flag = 1
+                for x in range(max(0, i - 1), min(Row, i + 2)):
+                    for y in range(max(0, j - 1), min(Column, j + 2)):
+                        if Board[x][y] == 0:
+                            flag = 0
+                if flag:
+                    Num3BV += 1
+    indexes['Ops'] = calOp(Board)
+    indexes['3BV'] = Num3BV + indexes['Ops']
+    indexes['Isls'] = '还在写'
+    return indexes
+
+def calScores(mode, winflag, time, operationStream, Board):
+    # 计算游戏得分，展示用，返回一个字典，都是字符串
+    # gameBoard是带数字的
+    scores = {}
+    indexes = calBoardIndex(Board)
+    scores['Time'] = '{:.3f}'.format(time)
+    scores['eTime'] = '{:.3f}'.format(time) if winflag else '还在写'
+    scores['3BV'] = str(indexes['3BV'])
+    scores['Ops'] = str(indexes['Ops'])
+    scores['Isls'] = str(indexes['Isls'])
+    scores['Left'] = '还在写'
+    scores['Right'] = '还在写'
+    scores['Cl'] = '还在写'
+    scores['IOE'] = '还在写'
+    scores['Thrp'] = '还在写'
+    scores['Corr'] = '还在写'
+    scores['3BV/s'] = '{:.2f}'.format(indexes['3BV']/time) if winflag else '还在写'
+    scores['RQP'] = '{:.2f}'.format(time**2/indexes['3BV']) if winflag else '---'
+    scores['STNB'] = '还在写'
+    scores['Ces'] = '还在写'
+    scores['Mode'] = '还在写'
+    scores['Difficulty'] = '还在写'
+    return scores
+
 
 def ai(mineLabel , BoardofGame , gameMode,i,j):
     #0，1，2，3，4，5，6，7代表：标准、win7、
